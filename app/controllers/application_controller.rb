@@ -3,13 +3,14 @@ class ApplicationController < ActionController::Base
 	#デバイス機能実行前にconfigure_permitted_parametersの実行をする。
 	protect_from_forgery with: :exception
 
+  # sign_in後のredirect先を変更する。
   def after_sign_in_path_for(resource)
-    root_path
+    user_path(current_user.id)
   end
   
   #sign_out後のredirect先変更する。rootパスへ。rootパスはhome topを設定済み。
   def after_sign_out_path_for(resource)
-    user_path(resource)
+    root_path
   end
   
   protected

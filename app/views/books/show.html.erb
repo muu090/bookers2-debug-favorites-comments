@@ -23,6 +23,25 @@
 					</td>
 					<td><%= link_to @book.title, @book %></td>
 					<td><%= @book.body %></td>
+					<%# いいね機能 %>
+					<td>
+						<% if @book.favorited_by?(current_user) %>
+							<li>
+								<%= link_to book_favorites_path(@book), method: :delete do %>
+								<i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+								<%= @book.favorites.count %> 
+								<% end %>
+							</li>
+						<% else %>
+							<li>
+								<%= link_to book_favorites_path(@book), method: :post do %>
+								<i class="fa fa-heart-o" aria-hidden="true"></i>
+								<%= @book.favorites.count %> 
+								<% end %>
+							</li>
+						<% end %>
+					</td>
+					<%# いいね機能 %>
 					<td> <p class="comment-count">コメント数：<%= @book.book_comments.count %></p> </td>
 					<% if @book.user == current_user %>
 					<td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
@@ -42,10 +61,14 @@
 								<%= book_comment.user.name %>
 							<% end %>
 						</td>
+
+
 						<td><%= book_comment.comment %></td>
+						<%# 投稿したユーザーのみdestroyボタン表示 %>
 						<% if book_comment.user.id == @book.user.id %>
-						<td><%= link_to "Destroy", @book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
+						<td><%= link_to "Destroy",book_path(@book, @comment), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger" %></td>
 						<% end %>
+						<%# 投稿したユーザーのみdestroyボタン表示 %>
 					</tr>
 				<% end %>
 			</table>

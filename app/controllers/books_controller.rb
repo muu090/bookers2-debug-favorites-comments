@@ -6,10 +6,10 @@ class BooksController < ApplicationController
 		@user = current_user
 		@book_comment = BookComment.new
   end
-
+	
 	def index
+		@books = Book.all #一覧表示するためにBookモデルの情報を全てくださいのall
 		@book = Book.new
-  	@books = Book.all #一覧表示するためにBookモデルの情報を全てくださいのall
   end
 
   def create
